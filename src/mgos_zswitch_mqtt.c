@@ -77,6 +77,14 @@ void mg_zswitch_mqtt_on_cmd_cb(struct mg_connection *nc, const char *topic,
   (void) topic_len;
 }
 
+struct mg_zswitch_mqtt_entry *mg_zswitch_mqtt_entry_get(struct mgos_zswitch *handle) {
+  struct mg_zswitch_mqtt_entry *e;
+  SLIST_FOREACH(e, &s_context->entries, entry) {
+    if (((void *)e->handle) == ((void *)handle)) return e;
+  }
+  return NULL;
+}
+
 void mg_zswitch_mqtt_state_updated_cb(int ev, void *ev_data, void *ud) {
   struct mgos_zswitch_state *state = (struct mgos_zswitch_state *)ev_data;
   struct mg_zswitch_mqtt_entry *entry = (struct mg_zswitch_mqtt_entry *)ud;
@@ -86,18 +94,6 @@ void mg_zswitch_mqtt_state_updated_cb(int ev, void *ev_data, void *ud) {
   }
   (void) ev;
 }
-
-/* void mg_zswitch_mqtt_created_cb(int ev, void *ev_data, void *ud) {
-  struct mgos_zswitch *handle = (struct mgos_zswitch *)ev_data;
-  if (handle != NULL) {
-    struct mgos_zswitch_mqtt_cfg cfg;
-    cfg.cmd_topic = mgos_sys_config_get_zthing_mqtt_cmd_topic();
-    cfg.state_topic = mgos_sys_config_get_zthing_mqtt_state_topic();
-    mgos_zswitch_mqtt_register(handle, &cfg);
-  }
-  (void) ud;
-  (void) ev;
-} */
 
 bool mg_zswitch_mqtt_entry_set(struct mg_zswitch_mqtt_entry *entry) {
   if (entry == NULL || entry->state_topic == NULL ||
@@ -165,14 +161,6 @@ bool mgos_zswitch_mqtt_attach(struct mgos_zswitch *handle,
   return (e != NULL);
 }
 
-struct mg_zswitch_mqtt_entry *mg_zswitch_mqtt_entry_get(struct mgos_zswitch *handle) {
-  struct mg_zswitch_mqtt_entry *e;
-  SLIST_FOREACH(e, &s_context->entries, entry) {
-    if (((void *)e->handle) == ((void *)handle)) return e;
-  }
-  return NULL;
-}
-
 bool mg_zswitch_mqtt_entry_reset(struct mg_zswitch_mqtt_entry *entry) {
   return false;
   // TODO: waiting for completion of mgos_mqtt_unsub
@@ -232,13 +220,6 @@ bool mgos_zswitch_mqtt_init() {
   /* Initialize the context */
   s_context->version = 1;
   SLIST_INIT(&s_context->entries);
-
-  // if (mgos_sys_config_get_zthing_mqtt_auto_register()) {
-  //   if (!mgos_event_add_handler(MGOS_EV_ZTHING_CREATED,
-  //         mg_zswitch_mqtt_created_cb, NULL)) {
-  //     return false;
-  //   }
-  // }
 
   mgos_mqtt_add_global_handler(mg_zswitch_mqtt_on_event, NULL);
 
