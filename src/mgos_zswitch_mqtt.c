@@ -205,8 +205,10 @@ struct mgos_zswitch_mqtt_cfg *mjs_zswitch_mqtt_cfg_create(const char* state_on,
 }
 
 void mjs_zswitch_mqtt_cfg_free(struct mgos_zswitch_mqtt_cfg *cfg) {
-  mg_zswitch_mqtt_cfg_close(*cfg);
-  free(cfg);
+  if (cfg != NULL) {
+    mg_zswitch_mqtt_cfg_close(*cfg);
+    free(cfg);
+  }
 }
 
 #endif /* MGOS_HAVE_MJS */
