@@ -1,0 +1,20 @@
+author: ZenDIY
+type: lib
+description: ZenSwitch MQTT
+version: 1.0
+
+sources:
+  - src
+includes:
+  - include
+filesystem:
+  - fs
+config_schema:
+libs:
+  - origin: https://github.com/zendiy-mgos/zswitch
+
+tags:
+  - c
+  - docs:misc:ZenSwitch MQTT
+
+manifest_version: 2017-09-29
