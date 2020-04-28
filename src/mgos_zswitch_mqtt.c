@@ -57,13 +57,13 @@ void mg_zswitch_mqtt_on_cmd_cb(struct mg_connection *nc, const char *topic,
   struct mg_zswitch_mqtt_entry *entry = (struct mg_zswitch_mqtt_entry *)ud;
   if (entry == NULL || msg == NULL) return;
 
-  if (strncmp(entry->cfg.cmd_toggle, msg, msg_len) == 0) {
+  if (strncasecmp(entry->cfg.cmd_toggle, msg, msg_len) == 0) {
     mgos_zswitch_state_toggle(entry->handle);
   } else {
     bool state;
-    if (strncmp(entry->cfg.cmd_on, msg, msg_len) == 0) {
+    if (strncasecmp(entry->cfg.cmd_on, msg, msg_len) == 0) {
       state = true;
-    } else if (strncmp(entry->cfg.cmd_off, msg, msg_len) == 0) {
+    } else if (strncasecmp(entry->cfg.cmd_off, msg, msg_len) == 0) {
       state = false;
     } else {
       LOG(LL_ERROR, ("Invalid MQTT command to switch '%s'",
