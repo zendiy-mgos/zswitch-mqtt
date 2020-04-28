@@ -198,12 +198,12 @@ struct mgos_zswitch_mqtt_cfg *mjs_zswitch_mqtt_cfg_create(const char* state_on,
                                                           const char* cmd_toggle) {
   struct mgos_zswitch_mqtt_cfg *cfg = calloc(1,
     sizeof(struct mgos_zswitch_mqtt_cfg));
-  cfg->state_on = strdup(state_on != NULL state_on : MGOS_ZTHING_STR_ON);
-  cfg->state_off = strdup(state_off != NULL state_off : MGOS_ZTHING_STR_OFF);
+  cfg->state_on = strdup(state_on != NULL ? state_on : MGOS_ZTHING_STR_ON);
+  cfg->state_off = strdup(state_off != NULL ? state_off : MGOS_ZTHING_STR_OFF);
 
   cfg->cmd_on = strdup(cmd_on != NULL ? cmd_on : MGOS_ZSWITCH_CMD_ON);
-  cfg->cmd_off = strdup(cmd_off != NULL cmd_off : MGOS_ZSWITCH_CMD_OFF);
-  cfg->cmd_toggle = strdup(cmd_toggle != NULL cmd_toggle : MGOS_ZSWITCH_CMD_TOGGLE);
+  cfg->cmd_off = strdup(cmd_off != NULL ? cmd_off : MGOS_ZSWITCH_CMD_OFF);
+  cfg->cmd_toggle = strdup(cmd_toggle != NULL ? cmd_toggle : MGOS_ZSWITCH_CMD_TOGGLE);
 
   return cfg;
 }
