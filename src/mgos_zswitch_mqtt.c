@@ -140,6 +140,8 @@ bool mgos_zswitch_mqtt_attach(struct mgos_zswitch *handle,
     } else {
       e->state_topic = strdup(state_topic);
     }
+    LOG(LL_INFO, ("Switch '%s' will publish state to %s", entry->handle->id,
+      entry->state_topic));
 
     // Normalize and clone cmd_topic 
     if (mgos_zthing_sreplaces(cmd_topic, &tmp_buf, 2,
@@ -149,6 +151,8 @@ bool mgos_zswitch_mqtt_attach(struct mgos_zswitch *handle,
     } else {
       e->cmd_topic = strdup(cmd_topic);
     }
+    LOG(LL_INFO, ("Switch '%s' will listen to %s", entry->handle->id,
+      entry->cmd_topic));
    
     if (mg_zswitch_mqtt_entry_set(e)) {
       SLIST_INSERT_HEAD(&s_context->entries, e, entry);
