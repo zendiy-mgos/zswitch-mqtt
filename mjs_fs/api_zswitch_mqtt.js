@@ -54,7 +54,9 @@ ZenSwitch.MQTT = {
   },
 };
 
-ZenSwitch._onCreateSub(function(obj) {
-  obj.MQTT = Object.create(ZenSwitch.MQTT._proto);
-  obj.MQTT._switch = obj;
+ZenThing._onCreateSub(function(obj) {
+  if (obj.type === ZenSwitch.THING_TYPE) {
+    obj.MQTT = Object.create(ZenSwitch.MQTT._proto);
+    obj.MQTT._switch = obj;
+  }
 });
