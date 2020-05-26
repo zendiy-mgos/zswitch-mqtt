@@ -53,8 +53,7 @@ Attach the switch to MQTT services. Returns `true` on success, `false` otherwise
 |cmd_topic|The MQTT topic to subscribe to for receiving command payload.|
 |cfg|Optional. MQTT configuration. If `NULL`, following default configuration values are used: state_on=`MGOS_ZTHING_STR_ON`, state_off=`MGOS_ZTHING_STR_OFF`, cmd_on=`MGOS_ZSWITCH_CMD_ON`, cmd_off=`MGOS_ZSWITCH_CMD_ON`, cmd_toggle=`MGOS_ZSWITCH_CMD_TOGGLE`.|
 
-**Environment variables for MQTT topics**
-Both `state_topic` and `cmd_topic` parameters can contain one or more of following environment variables.
+**Environment variables for MQTT topics** - Both `state_topic` and `cmd_topic` parameters can contain one or more of following environment variables.
 
 |Environment variable||
 |--|--|
@@ -99,8 +98,7 @@ Attach the switch to MQTT services. Returns `true` on success, `false` otherwise
 |*cfg*.cmdOff|string|Optional. The command message payload for turning the siwtch OFF. Default value `'OFF'`.|
 |*cfg*.cmdToggle|string|Optional. The command message payload for toggling the siwtch state. Default value `'TOGGLE'`.|
 
-**Environment variables for MQTT topics**
-Both `stateTopic` and `cmdTopic` parameters can contain one or more of following environment variables.
+**Environment variables for MQTT topics** - Both `stateTopic` and `cmdTopic` parameters can contain one or more of following environment variables.
 
 |Environment variable||
 |--|--|
