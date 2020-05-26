@@ -1,6 +1,6 @@
 author: ZenDIY
 type: lib
-description: Mongoose OS library for enabling MQTT over Zen Switches
+description: Mongoose OS library for enabling MQTT over ZenSwitches
 version: 1.0
 
 sources:
