@@ -65,7 +65,6 @@ Attach the switch to MQTT services. Returns `true` on success, `false` otherwise
 struct mgos_zswitch *sw = mgos_zswitch_create("sw-1", NULL);
 struct mgos_zswitch_mqtt_cfg cfg = {"on", "off", "turn_on", "turn_off", "toggle"};
 mgos_zswitch_mqtt_attach(sw, "$zt/${device_id}/${zthing_id}/state", "$zt/${device_id}/${zthing_id}/cmd", &cfg);
-}
 ```
 ### mgos_zswitch_mqtt_detach()
 ```c
