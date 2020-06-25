@@ -95,16 +95,25 @@ void mg_zswitch_mqtt_state_updated_cb(int ev, void *ev_data, void *ud) {
   (void) ev;
 }
 
-bool mg_zswitch_mqtt_entry_set(struct mg_zswitch_mqtt_entry *entry) {
-  if (entry == NULL || entry->state_topic == NULL ||
-      entry->cmd_topic == NULL) return false;
+bool mg_zswitch_mqtt_entry_reset(struct mg_zswitch_mqtt_entry *entry) {
+  if (!entry) return false;
+  mgos_event_remove_handler(MGOS_EV_ZTHING_STATE_UPDATED, mg_zswitch_mqtt_state_updated_cb, entry);
+  // TODO: waiting for completion of mgos_mqtt_unsub
+  // At the moment 'mgos_mqtt_unsub' has only 'topic' 
+  // parameter. Waiting for its completion.
+  // return mgos_mqtt_unsub(entry->cmd_topic, mg_zswitch_mqtt_on_cmd_cb, entry);
+  return false;
+  (void) entry;
+}
 
-  if (!mgos_event_add_handler(MGOS_EV_ZTHING_STATE_UPDATED,
-        mg_zswitch_mqtt_state_updated_cb, entry)) {
-    return false;
+bool mg_zswitch_mqtt_entry_set(struct mg_zswitch_mqtt_entry *entry) {
+  if (!entry || !entry->state_topic || !entry->cmd_topic) return false;
+  if (mgos_event_add_handler(MGOS_EV_ZTHING_STATE_UPDATED, mg_zswitch_mqtt_state_updated_cb, entry)) {
+    mgos_mqtt_sub(entry->cmd_topic, mg_zswitch_mqtt_on_cmd_cb, entry);
+    return true;
   }
-  mgos_mqtt_sub(entry->cmd_topic, mg_zswitch_mqtt_on_cmd_cb, entry);
-  return true;
+  mg_zswitch_mqtt_entry_reset(entry);
+  return false;
 }
 
 bool mgos_zswitch_mqtt_attach(struct mgos_zswitch *handle,
@@ -163,17 +172,6 @@ bool mgos_zswitch_mqtt_attach(struct mgos_zswitch *handle,
   }
   
   return (e != NULL);
-}
-
-bool mg_zswitch_mqtt_entry_reset(struct mg_zswitch_mqtt_entry *entry) {
-  if (!entry) return false;
-  mgos_event_remove_handler(MGOS_EV_ZTHING_STATE_UPDATED, mg_zswitch_mqtt_state_updated_cb, entry);
-  // TODO: waiting for completion of mgos_mqtt_unsub
-  // At the moment 'mgos_mqtt_unsub' has only 'topic' 
-  // parameter. Waiting for its completion.
-  // return mgos_mqtt_unsub(entry->cmd_topic, mg_zswitch_mqtt_on_cmd_cb, entry);
-  return false;
-  (void) entry;
 }
 
 bool mgos_zswitch_mqtt_detach(struct mgos_zswitch *handle) {
