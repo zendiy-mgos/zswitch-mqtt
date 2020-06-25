@@ -166,25 +166,22 @@ bool mgos_zswitch_mqtt_attach(struct mgos_zswitch *handle,
 }
 
 bool mg_zswitch_mqtt_entry_reset(struct mg_zswitch_mqtt_entry *entry) {
-  return false;
+  if (!entry) return false;
+  mgos_event_remove_handler(MGOS_EV_ZTHING_STATE_UPDATED, mg_zswitch_mqtt_state_updated_cb, entry);
   // TODO: waiting for completion of mgos_mqtt_unsub
-  /* if (mgos_event_remove_handler(MGOS_EV_ZTHING_STATE_UPDATED,
-    mg_zswitch_mqtt_state_updated_cb, entry)) {
-    // At the moment 'mgos_mqtt_unsub' has only 'topic' 
-    // parameter. Waiting for its completion.
-    // return mgos_mqtt_unsub(entry->cmd_topic, mg_zswitch_mqtt_on_cmd_cb, entry);
-  } */
+  // At the moment 'mgos_mqtt_unsub' has only 'topic' 
+  // parameter. Waiting for its completion.
+  // return mgos_mqtt_unsub(entry->cmd_topic, mg_zswitch_mqtt_on_cmd_cb, entry);
+  return false;
   (void) entry;
 }
 
 bool mgos_zswitch_mqtt_detach(struct mgos_zswitch *handle) {
   struct mg_zswitch_mqtt_entry *e = mg_zswitch_mqtt_entry_get(handle);
-  if (e != NULL) {
-    if (mg_zswitch_mqtt_entry_reset(e)) {
-      SLIST_REMOVE(&s_context->entries, e, mg_zswitch_mqtt_entry, entry);
-      mg_zswitch_mqtt_entry_free(e);
-      return true;
-    }
+  if ((e != NULL) && mg_zswitch_mqtt_entry_reset(e)) {
+    SLIST_REMOVE(&s_context->entries, e, mg_zswitch_mqtt_entry, entry);
+    mg_zswitch_mqtt_entry_free(e);
+    return true;
   }
   return false; 
 }
