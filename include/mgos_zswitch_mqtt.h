@@ -27,7 +27,7 @@ extern "C" {
 #endif
 
 
-#define MGOS_ZSWITCH_MQTT_CFG { NULL, NULL }
+#define MGOS_ZSWITCH_MQTT_CFG { NULL, NULL, NULL, NULL, NULL }
 
 struct mgos_zswitch_mqtt_cfg {
   const char *state_on;
