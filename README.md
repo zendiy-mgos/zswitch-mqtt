@@ -117,9 +117,9 @@ let success = sw.MQTT.attach('$zt/${device_id}/${zthing_id}/state', '$zt/${devic
 ```
 ### .MQTT.detach()
 ```js
-sw.MQTT.detach();
+let success = sw.MQTT.detach();
 ```
-Detach the switch from MQTT services that were previously attached using `.MQTT.attach()`.
+Detach the switch from MQTT services that were previously attached using `.MQTT.attach()`. Returns `true` on success, `false` otherwise.
 ## Additional resources
 Take a look to some other demo samples.
 
